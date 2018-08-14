@@ -1,0 +1,40 @@
+{
+    "name": "twoamint/yii2-grid-view",
+    "description": "Behavior driven yii2 grid view",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aleksandar Panic",
+            "email": "arekusanda1@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "twoamint\\Yii2\\GridView\\": "src"
+        }
+    },
+    "require": {
+        "yiisoft/yii2": "2.0.*"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "config": {
+        "process-timeout": 1800,
+        "fxp-asset":{
+            "enabled" : false,
+            "installer-paths": {
+                "npm-asset-library": "vendor/npm",
+                "bower-asset-library": "vendor/bower"
+            }
+        }
+    },
+    "suggest": {
+        "phpoffice/phpexcel": "Required when using PHPExcelExporter in ExportableBehavior"
+    }
+}
