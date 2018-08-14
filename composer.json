@@ -33,8 +33,5 @@
                 "bower-asset-library": "vendor/bower"
             }
         }
-    },
-    "suggest": {
-        "phpoffice/phpexcel": "Required when using PHPExcelExporter in ExportableBehavior"
     }
 }
