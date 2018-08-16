@@ -10,6 +10,7 @@ namespace twoamint\Yii2\GridView;
 use Closure;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\base\Model;
 use yii\base\WidgetEvent;
 use yii\grid\Column;
 use yii\grid\DataColumn;
@@ -45,6 +46,14 @@ class GridView extends \yii\grid\GridView
     const EVENT_BEFORE_RENDER_ROW = 'grid.beforeRenderRow';
     const EVENT_AFTER_RENDER_ROW = 'grid.afterRenderRow';
 
+    const EVENT_BEFORE_RENDER_ERRORS = 'grid.beforeRenderRow';
+    const EVENT_AFTER_RENDER_ERRORS = 'grid.afterRenderRow';
+
+    const EVENT_GET_CUSTOM_SECTIONS = 'grid.getCustomSections';
+
+    const EVENT_BEFORE_RENDER_CUSTOM_SECTION = 'grid.beforeRenderCustomSection';
+    const EVENT_AFTER_RENDER_CUSTOM_SECTION = 'grid.afterRenderCustomSection';
+
     public $itemsContentGlue = "\n";
     public $tableBodyGlue = "\n";
 
@@ -71,9 +80,12 @@ class GridView extends \yii\grid\GridView
     public $colTag = 'col';
     public $colGroupGlue = "\n";
     public $pagerGlue = '';
+    public $errorsGlue = '';
     public $summaryGlue = '';
 
     protected $stopExecution = false;
+
+    protected $customSections = [];
 
     public function init()
     {
@@ -372,6 +384,45 @@ class GridView extends \yii\grid\GridView
         $contents = $this->triggerEventProcessor(self::EVENT_AFTER_RENDER_PAGER, ['data' => $contents])->getLastResult();
 
         return implode($this->pagerGlue, $contents);
+    }
+
+
+    public function renderErrors()
+    {
+        $contents = [];
+        $contents['before'] = $this->triggerEventProcessor(self::EVENT_BEFORE_RENDER_ERRORS, ['data' => ''])->getLastResult();
+
+        if ($this->filterModel instanceof Model && $this->filterModel->hasErrors()) {
+            $contents['content'] = Html::errorSummary($this->filterModel, $this->filterErrorSummaryOptions);
+        }
+
+        $contents = $this->triggerEventProcessor(self::EVENT_AFTER_RENDER_PAGER, ['data' => $contents])->getLastResult();
+
+        return implode($this->errorsGlue, $contents);
+    }
+
+    public function renderSection($name)
+    {
+        $result = parent::renderSection($name);
+
+        if ($result === false) {
+            $sections = $this->getCustomSections();
+
+            if (!empty($sections[$name]) && is_callable($sections[$name])) {
+                $result = $sections[$name]();
+            }
+        }
+
+        return $result;
+    }
+
+    protected function getCustomSections()
+    {
+        if ($this->customSections === null) {
+            $this->customSections = $this->triggerEventProcessor(self::EVENT_GET_CUSTOM_SECTIONS, ['data' => []])->getLastResult();
+        }
+
+        return $this->customSections;
     }
 
     /**
