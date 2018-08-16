@@ -85,7 +85,7 @@ class GridView extends \yii\grid\GridView
 
     protected $stopExecution = false;
 
-    protected $customSections = [];
+    protected $customSections = null;
 
     public function init()
     {
@@ -406,23 +406,22 @@ class GridView extends \yii\grid\GridView
         $result = parent::renderSection($name);
 
         if ($result === false) {
-            $sections = $this->getCustomSections();
+            if ($this->customSections === null) {
+                $this->initCustomSections();
+            }
 
-            if (!empty($sections[$name]) && is_callable($sections[$name])) {
-                $result = $sections[$name]();
+            if (!empty($this->customSections[$name]) && is_callable($this->customSections[$name])) {
+                $result = $this->customSections[$name]();
             }
         }
 
         return $result;
     }
 
-    protected function getCustomSections()
+    protected function initCustomSections()
     {
-        if ($this->customSections === null) {
-            $this->customSections = $this->triggerEventProcessor(self::EVENT_GET_CUSTOM_SECTIONS, ['data' => []])->getLastResult();
-        }
-
-        return $this->customSections;
+        $this->customSections = $this->triggerEventProcessor(self::EVENT_GET_CUSTOM_SECTIONS, ['data' => []])
+            ->getLastResult();
     }
 
     /**
