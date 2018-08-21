@@ -150,10 +150,12 @@ class GridView extends \yii\grid\GridView
     public function run()
     {
         if ($this->stopExecution) {
-            return;
+            return '';
         }
 
+        ob_start();
         parent::run();
+        return ob_get_clean();
     }
 
     public function setBehaviors($behaviors)
