@@ -83,6 +83,8 @@ class GridView extends \yii\grid\GridView
     public $errorsGlue = '';
     public $summaryGlue = '';
 
+    public $bufferOutput = false;
+
     protected $stopExecution = false;
 
     protected $customSections = null;
@@ -153,9 +155,13 @@ class GridView extends \yii\grid\GridView
             return '';
         }
 
-        ob_start();
-        parent::run();
-        return ob_get_clean();
+        if ($this->bufferOutput) {
+            ob_start();
+            parent::run();
+            return ob_get_clean();
+        }
+
+        return parent::run();
     }
 
     public function setBehaviors($behaviors)
