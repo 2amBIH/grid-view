@@ -5,7 +5,7 @@
  *
  **/
 
-namespace twoamint\Yii2\GridView;
+namespace dvamigos\Yii2\GridView;
 
 use Closure;
 use Yii;

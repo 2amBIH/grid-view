@@ -5,11 +5,11 @@
  *
  **/
 
-namespace twoamint\Yii2\GridView\behaviors;
+namespace dvamigos\Yii2\GridView\behaviors;
 
 
-use twoamint\Yii2\GridView\GridEvent;
-use twoamint\Yii2\GridView\GridView;
+use dvamigos\Yii2\GridView\GridEvent;
+use dvamigos\Yii2\GridView\GridView;
 use yii\base\Behavior;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;

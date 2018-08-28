@@ -5,9 +5,9 @@
  *
  **/
 
-namespace twoamint\Yii2\GridView\behaviors;
+namespace dvamigos\Yii2\GridView\behaviors;
 
-use twoamint\Yii2\GridView\GridView;
+use dvamigos\Yii2\GridView\GridView;
 use Yii;
 use yii\base\Behavior;
 use yii\base\WidgetEvent;

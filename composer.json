@@ -1,5 +1,5 @@
 {
-    "name": "twoamint/yii2-grid-view",
+    "name": "dvamigos/yii2-grid-view",
     "description": "Behavior driven yii2 grid view",
     "type": "library",
     "license": "MIT",
@@ -12,7 +12,7 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "twoamint\\Yii2\\GridView\\": "src"
+            "dvamigos\\Yii2\\GridView\\": "src"
         }
     },
     "require": {
